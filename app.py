@@ -1,27 +1,27 @@
-# -*- coding: utf-8 -*-
+# -- coding: utf-8 --
 """
-Created on Sun Apr 20 13:52:32 2025
+Created on Sun Apr 20 13:53:36 2025
 
 @author: LAB
 """
 
-import stremlit as st
+import streamlit as st
 from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, decode_predictions, preprocess_input
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import pickle
 
-
 #load model
-with open('model_pkl' ,'rb') as f:
+with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
     
 #set title application
-st.title("Image Classification with MobileNet by Thanchanok Manta")
+st.title("Image Classification with MobileNetV2 by Thanchanok Manta")
+
 
 #file upload
-upload_file = st.file_uploader("Upload image:",type=["jpg", "jpeg", "png"])
+upload_file = st.file_uploader("Upload image:", type=["jpg", "jpeg", "png"])
 
 if upload_file is not None:
     #display image on screen
@@ -34,8 +34,8 @@ if upload_file is not None:
     x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
     
-    #prediction
-    preds = model.predic(x)
+    #display prediction
+    preds = model.predict(x)
     top_preds = decode_predictions(preds, top=3)[0]
     
     #display prediction
